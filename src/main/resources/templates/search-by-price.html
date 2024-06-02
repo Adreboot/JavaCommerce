@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="layout/default.html :: headerfiles"></th:block>
+</head>
+<body>
+	<nav th:insert="layout/default.html :: navbar"></nav>
+	<div class="container">
+		<br><br><br><br>
+		<h3 th:text="#{items.search}"></h3>
+		<br>
+		<form class="form-row" method="post" th:action="@{/price-search}">
+			<div class="form-check form-check-inline">
+			<span th:text="#{items.price.search.all}+' ... '"></span>&nbsp;&nbsp;
+				<input class="form-check-input" type="radio"
+					name="gtLt" id="eq" value="EQ">
+				<label class="form-check-label" for="eq" th:text="#{items.price.search.eq}"></label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio"
+					name="gtLt" id="gt" value="GT">
+				<label class="form-check-label" for="gt" th:text="#{items.price.search.gt}"></label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio"
+					name=gtLt id="lt" value="LT">
+				<label class="form-check-label" for="lt" th:text="#{items.price.search.lt}"></label>
+			</div>
+			<div class="form-row">
+					<div class="col-sm-4">
+						<input type="text" name="price" class="form-control" th:placeholder="#{items.price.limit}" />
+					</div>
+				</div>
+			<div class="form-row">
+				<div class="col-sm-offset-2 col-sm-3">
+					<button type="submit" class="btn btn-primary" th:text="#{button.send}"></button>
+
+				</div>
+			</div>
+		</form>
+		<br><br><br>
+		<form class="form-row" name="priceAndKeywordSearchForm" method="post" th:action="@{/price-and-keyword-search}">
+			<div class="form-group mx-sm-3 mb-2">
+			<span th:text="#{items.price.search}+' ... '"></span>&nbsp;&nbsp;
+				<input type="text" name="keyword" class="form-control" th:placeholder="#{items.price.search.keyword}" />
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio"
+					name="gtLt" id="eq" value="EQ">
+				<label class="form-check-label" for="eq" th:text="#{items.price.search.eq}"></label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio"
+					name="gtLt" id="gt" value="GT">
+				<label class="form-check-label" for="gt" th:text="#{items.price.search.gt}"></label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio"
+					name=gtLt id="lt" value="LT">
+				<label class="form-check-label" for="lt" th:text="#{items.price.search.lt}"></label>
+			</div>
+			<div class="form-check-inline form-row">
+			<div class="col-sm-4">
+						<input type="text" name="price" class="form-control" th:placeholder="#{items.price.limit}" />
+						</div>
+				</div>
+			<div class="form-check-inline form-row">
+				<div class="col-sm-offset-2 col-sm-3">
+					<button type="submit" name="searchByPriceButton" class="btn btn-primary" th:text="#{button.send}"></button>
+
+				</div>
+			</div>
+		</form>
+		<br><br><br><br><br>
+		<div th:insert="layout/default.html :: footer"></div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<nav th:insert="layout/default.html :: footernavbar"></nav>
+	<div th:insert="layout/default.html :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<th:block th:insert="layout/default.html :: headerfiles"></th:block>
+</head>
+
+<body>
+	<nav th:insert="layout/default.html :: navbar"></nav>
+	<div class="container">
+		<br><br><br><br>
+		<h3 th:text="#{cart}"></h3>
+		<br>
+		<div style="border: 2px solid gray;border-radius: 4px;padding:5px">
+
+			<div th:if="${cart !=null and cart.size()>0}">
+				<div th:each="cartItem : ${cart}">
+					<form method="post" name="updateCartForm" th:action="@{/update-cart}">
+						<table>
+							<tr>
+								<td style="width:50%">
+									<a th:href="@{'/find-item?itemId='+${cartItem.itemId}}"
+										th:text="${cartItem.itemName}"></a>
+									<p th:text="${cartItem.productDescription}" />
+									<input type="hidden" name="itemId" th:value="${cartItem.itemId}">
+								</td>
+								<td style="padding-right:0.5em">
+									<a th:href="@{'/remove-from-cart?itemId='+${cartItem.itemId}}"
+										th:text="#{cart.remove}">Remove</a>
+								</td>
+								<td style="padding-right:0.5em">
+									<input type="submit" th:value="#{cart.update}">
+								</td>
+								<td style="padding-right:0.5em">
+									<input type="text" name="quantity" size="3" maxlength="3"
+										th:value="${cartItem.quantity}">
+								</td>
+								<td align="center">x</td>
+								<td align="right" th:text="${cartItem.unitCost}"></td>
+								<td align="center">=</td>
+								<td align="right" th:text="${cartItem.totalCost}"></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<table>
+					<tr>
+						<td style="width:85%"> </td>
+						<td style="font-weight:bold" th:text="#{cart.total}+' '+${cartValue}"></td>
+					</tr>
+				</table>
+			</div>
+
+			<h3 th:if="${cart == null or cart.size()==0}" th:text="#{cart.empty}"></h3>
+
+		</div>
+		<div align="right"> <a th:href="@{/checkout}" th:text="#{cart.checkout}"></a></div>
+
+		<br>
+		<div th:insert="layout/default.html :: footer"></div>
+	</div>
+	<br><br><br>
+	<nav th:insert="layout/default.html :: footernavbar"></nav>
+	<div th:insert="layout/default.html :: scripts"></div>
+</body>
+
+</html>

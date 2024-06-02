@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="layout/default.html :: headerfiles"></th:block>
+</head>
+<body>
+<nav th:insert="layout/default.html :: navbar"></nav>
+<br><br><br><br>
+<div class="container" sec:authorize="hasRole('ADMIN')" >
+<h3 th:text=#{manage.catalog}></h3>
+
+<!-- ---------------------------------------------------- CATEGORIES ---------------------------------------------------- -->
+<div th:if="${categoryDTOs !=null}">
+		<div  th:if="${categoryDeleted != null}">
+				<h4 class="alert alert-success" th:text="${categoryDeleted}+' '+#{catalog.deleted}"></h4>
+		</div>
+		<div  th:if="${categoryUpdated != null}">
+				<h4 class="alert alert-success" th:text="${categoryUpdated}+' '+#{catalog.updated}"></h4>
+		</div>
+		<div  th:if="${productDeleted != null}">
+				<h4 class="alert alert-success" th:text="${productDeleted}+' '+#{catalog.deleted}"></h4>
+		</div>
+		<div  th:if="${productUpdated != null}">
+				<h4 class="alert alert-success" th:text="${productUpdated}+' '+#{catalog.updated}"></h4>
+		</div>
+		<div  th:if="${itemDeleted != null}">
+				<h4 class="alert alert-success" th:text="${itemDeleted}+' '+#{catalog.deleted}"></h4>
+		</div>
+		<div  th:if="${itemUpdated != null}">
+				<h4 class="alert alert-success" th:text="${itemUpdated}+' '+#{catalog.updated}"></h4>
+		</div>
+		<h3 th:text="#{category.list}"></h3>
+		<br>
+		<div class="row justify-content-start" >
+		<table>		
+		<tr class="bg-light">
+		<th class="col-sm-1" th:text="#{catalog.id}"></th>
+		<th class="col-sm-3" th:text="#{catalog.name}"></th>
+		<th class="col-sm-1"></th>
+		<th class="col-sm-1"></th>
+		</tr>
+			<tr th:if="${categoryDTOs.size()>0}" th:each="categoryDTO: ${categoryDTOs}">
+				<td class="col-sm-1"><a th:href="@{'/manage/manage-products/'+${categoryDTO.id}}"  th:text="${categoryDTO.id}"></a></td>
+				<td class="col-sm-3" th:text="${categoryDTO.name}"></td>
+				<th class="col-sm-1"><a class="btn btn-primary" th:href="@{'/manage/update-category/'+${categoryDTO.id}}" th:text="#{catalog.update}"></a></th>
+				<th class="col-sm-1"><a class="btn btn-primary" th:href="@{'/manage/delete-category/'+${categoryDTO.id}}" th:text="#{catalog.delete}"></a></th>
+			</tr>		
+			<tr th:if="${categoryDTOs.size()==0}">
+				<td class="col-sm-7" th:text=#{category.empty}></td>
+		</tr>	
+		</table>	
+		</div>
+</div>		
+		<!-- ---------------------------------------------------- PRODUCTS ---------------------------------------------------- -->
+		
+		<div th:if="${productDTOs !=null}">
+		<h3 th:text="#{product.list}"></h3>
+		<br>
+		<div class="row justify-content-start" >
+		<table>		
+		<tr class="bg-light">
+		<th class="col-sm-1" th:text="#{catalog.id}"></th>
+		<th class="col-sm-3" th:text="#{catalog.name}"></th>
+		<th class="col-sm-1"></th>
+		<th class="col-sm-1"></th>
+		</tr>
+			<tr th:if="${productDTOs.size()>0}" th:each="productDTO: ${productDTOs}">
+				<td class="col-sm-1"><a th:href="@{'/manage/manage-items/'+${productDTO.id}}"  th:text="${productDTO.id}"></a></td>
+				<td class="col-sm-3" th:text="${productDTO.name}"></td>
+				<th class="col-sm-1"><a class="btn btn-primary" th:href="@{'/manage/update-product/'+${productDTO.id}}" th:text="#{catalog.update}"></a></th>
+				<th class="col-sm-1"><a class="btn btn-primary" th:href="@{'/manage/delete-product/'+${productDTO.id}}" th:text="#{catalog.delete}"></a></th>
+			</tr>		
+			<tr th:if="${productDTOs.size()==0}">
+				<td class="col-sm-7" th:text=#{product.empty}></td>
+		</tr>	
+		</table>	
+		</div>
+</div>	
+		<!-- ---------------------------------------------------- ITEMS ---------------------------------------------------- -->
+		
+<div th:if="${itemDTOs !=null}">
+		<h3 th:text="#{item.list}"></h3>
+		<br>
+		<div class="row justify-content-start" >
+		<table>		
+		<tr class="bg-light">
+		<th class="col-sm-1" th:text="#{catalog.id}"></th>
+		<th class="col-sm-3" th:text="#{catalog.name}"></th>
+		<th class="col-sm-1"></th>
+		<th class="col-sm-1"></th>
+		</tr>
+			<tr th:if="${itemDTOs.size()>0}" th:each="itemDTO: ${itemDTOs}">
+				<td class="col-sm-1" th:text="${itemDTO.id}"></td>
+				<td class="col-sm-3" th:text="${itemDTO.name}"></td>
+				<th class="col-sm-1"><a class="btn btn-primary" th:href="@{'/manage/update-item/'+${itemDTO.id}}" th:text="#{catalog.update}"></a></th>
+				<th class="col-sm-1"><a class="btn btn-primary" th:href="@{'/manage/delete-item/'+${itemDTO.id}}" th:text="#{catalog.delete}"></a></th>
+			</tr>		
+			<tr th:if="${itemDTOs.size()==0}">
+				<td class="col-sm-7" th:text=#{item.empty}></td>
+		</tr>	
+		</table>	
+		</div>
+</div>	
+
+<br><br><br><br>
+<div th:insert="layout/default.html :: footer"></div>
+</div>
+<nav th:insert="layout/default.html :: footernavbar"></nav>
+<div th:insert="layout/default.html :: scripts"></div>
+</body>
+</html>

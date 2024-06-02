@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  mysql-petstore:
+    image: mysql:latest
+    container_name: mysql-petstore
+    ports:
+      - "3306:3306"
+    volumes:
+      - petstore_mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      
+  mysql:
+    container_name: mysql-keycloak
+    image: mysql:latest
+    ports:
+      - "3307:3306"
+    volumes:
+       - keycloak_mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: cnam
+      MYSQL_DATABASE: keycloak
+    depends_on:
+      - mysql-petstore
+      
+  keycloak:
+    container_name: keycloak-petstore
+    image: quay.io/keycloak/keycloak:13.0.0
+    ports:
+      - "8089:8080"
+    environment:
+      DB_VENDOR: mysql
+      DB_ADDR: mysql
+      DB_DATABASE: keycloak
+      DB_USER: root
+      DB_PASSWORD: cnam
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_FRONTEND_URL: http://localhost:8089/auth
+    depends_on:
+      - mysql
+
+networks:
+  default:
+    name: JavaCommerceNetwork
+
+volumes:
+  keycloak_mysql_data:
+    external: true
+    name: keycloak_mysql_data
+  petstore_mysql_data:
+    external: true
+    name: petstore_mysql_data

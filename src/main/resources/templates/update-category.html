@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="layout/default.html :: headerfiles"></th:block>
+</head>
+<body>
+	<nav th:insert="layout/default.html :: navbar"></nav>
+    <div class="container">	
+    <br><br><br>
+		<h3 th:text="#{update.category.title}"></h3>
+		<hr />
+		<br>
+		<form class="form-horizontal" name="catUpdateForm" method="post" th:action="@{/manage/update-category}" th:object="${categoryDTO}">
+				<div class="form-group">
+		    <label for="id" class="col-sm-2 control-label" th:text="#{catalog.id}"></label>
+		    <div class="col-sm-5">
+		        <input th:field="${categoryDTO.id}" type="text" id="id" name="id" th:value="${categoryDTO.id}" class="form-control" readonly />
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="name" class="col-sm-2 control-label" th:text="#{catalog.name}"></label>
+		    <div class="col-sm-5">
+		        <input th:field="${categoryDTO.name}" type="text" id="name" name="name" class="form-control" th:value="${categoryDTO.name}" />
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="description" class="col-sm-2 control-label" th:text="#{catalog.description}"></label>
+		    <div class="col-sm-5">
+		        <input th:field="${categoryDTO.description}" type="text" id="description" name="description" class="form-control" th:value="${categoryDTO.description}" />
+		    </div>
+		</div>
+		
+			<br>
+		<div class="form-group">
+		    <div class="col-sm-offset-2 col-sm-5">
+		      <button type="submit" name="catUpdateButton" class="btn btn-primary" th:text="#{update.account}">Apply changes</button>
+		  	</div>
+		 </div>
+		</form>
+		<br><br><br><br>
+    </div>
+	<th:block th:insert="layout/default.html :: footernavbar"></th:block>
+	<th:block th:insert="layout/default.html :: scripts"></th:block>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:insert="layout/default.html :: headerfiles"></th:block>
+</head>
+
+<body>
+    <nav th:insert="layout/default.html :: navbar"></nav>
+
+
+    <div class="container" sec:authorize="hasRole('USER')">
+
+        <br><br><br><br>
+
+        <h3 th:text="#{order.complete}"></h3>
+        <br>
+
+        <div>
+            <p th:text="#{order.id}+' '+${orderId}" style="font-weight:bold"></p>
+            <p th:text="#{Thanks.for.shopping}"></p>
+        </div>
+
+        <br>
+
+        <div th:insert="layout/default.html :: footer"></div>
+    </div>
+
+    <br><br><br>
+
+    <nav th:insert="layout/default.html :: footernavbar"></nav>
+    <div th:insert="layout/default.html :: scripts"></div>
+</body>
+
+</html>

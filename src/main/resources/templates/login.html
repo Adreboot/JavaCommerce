@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:insert="layout/default.html :: headerfiles"></th:block>
+</head>
+<body>
+	<nav th:insert="layout/default.html :: navbar"></nav>	
+		<div class="container">
+		<br><br><br>
+		<div th:if="${param.message != null}" class="alert alert-info" th:text="${param.message[0]}">message</div>
+		<div th:if="${param.error != null}" class="alert alert-danger" th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
+			<h3 th:text="#{login.title}">Login</h3>
+			<hr />
+			<br>
+			<form class="form-horizontal" name="loginForm"  method="post" th:action="@{/login}">
+				<div class="form-group">
+					<label for="id" class="col-sm-2 control-label"
+						th:text="#{login.username}">username</label>
+					<div class="col-sm-5">
+						<input type="text" id="username" name="username"
+							class="form-control" th:placeholder="#{login.your.username}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password" class="col-sm-2 control-label"
+						th:text="#{login.password}">Password</label>
+					<div class="col-sm-5">
+						<input type="password" class="form-control" id="password"
+							name="password" th:placeholder="#{login.your.password}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-4">
+						<button type="submit" name="loginButton" class="btn btn-primary" th:text="#{login.signin}">Sign In</button>
+						<a th:href="@{/new-account}" th:text="#{login.create.account}">Or create an account</a>
+					</div>
+					</div>
+			</form>
+		</div>
+	<!-- </div> -->
+	<th:block th:insert="layout/default.html :: footernavbar"></th:block>
+	<th:block th:insert="layout/default.html :: scripts"></th:block>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="layout/default.html :: headerfiles"></th:block>
+</head>
+<body>
+<nav th:insert="layout/default.html :: navbar"></nav>
+<div class="container">
+<br><br><br><br>
+	<h3 th:if="${productDTO}!=null" th:text="#{items.included}+' '+${productDTO.name}"></h3>
+	<h3 th:if="${keyword}!=null" th:unless="${price}!=null" th:text="#{items.matching}+' '+${keyword}"></h3>
+	<div th:if="${price}!=null" th:unless="${keyword}!=null" th:switch="${gtLt}">
+	<h3 th:case="'GT'" th:text="#{items.price.gt}+' '+${price}+' euros'"></h3>
+	<h3 th:case="'LT'" th:text="#{items.price.lt}+' '+${price}+' euros'"></h3>
+	<h3 th:case="'EQ'" th:text="#{items.price.eq}+' '+${price}+' euros'"></h3>
+	</div>
+	<div th:if="${price}!=null and ${keyword}!=null" th:switch="${gtLt}">
+	<h3 th:case="'GT'" th:text="#{items.matching}+' '+${keyword}+' '+#{items.price.gt.keyword}+' '+${price}+' euros'"></h3>
+	<h3 th:case="'LT'" th:text="#{items.matching}+' '+${keyword}+' '+#{items.price.lt.keyword}+' '+${price}+' euros'"></h3>
+	<h3 th:case="'EQ'" th:text="#{items.matching}+' '+${keyword}+' '+#{items.price.eq.keyword}+' '+${price}+' euros'"></h3>
+	</div>
+	<br>
+	<div style="border: 2px solid gray;border-radius: 4px;padding:5px">
+	<div th:if="${itemDTOs.size()>0}" th:each="itemDTO : ${itemDTOs}">
+		<span th:text="${itemDTO.id}+' - '"></span>
+		<a th:href="@{'/find-item?itemId='+${itemDTO.id}}" th:text="${itemDTO.name}" style="margin-right:3em"></a> <span th:text="${itemDTO.unitCost}"></span>
+    	<p><span th:text="${itemDTO.productDTO.description}" style="margin-right:3em"></span> <span><a th:href="@{'/add-to-cart?itemId='+${itemDTO.id}}" th:text="#{cart.add}"></a></span></p>
+	</div>
+	<h3 th:if="${itemDTOs.size()==0}" th:text="#{items.search.empty}"></h3>
+	</div>
+
+	
+<br>
+<div th:insert="layout/default.html :: footer"></div>
+</div>
+<br><br><br>
+<nav th:insert="layout/default.html :: footernavbar"></nav>
+<div th:insert="layout/default.html :: scripts"></div>
+</body>
+</html>

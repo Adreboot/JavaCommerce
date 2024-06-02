@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="layout/default.html :: headerfiles"></th:block>
+</head>
+<body>
+<nav th:insert="layout/default.html :: navbar"></nav>
+<div class="container" >
+<br><br><br><br>
+	<div class="container" sec:authorize="hasAnyRole('ADMIN','FRANCHISEE')">
+	<div th:if="${customerDTOs} !=null" >
+	<h3 th:text="#{customers.list}"></h3>
+		<br>
+		<div class="row justify-content-start" >
+		<table>	
+			<tr>
+			<th class="col-sm-2" th:text="#{login.username}"></th>
+			<th class="col-sm-2" th:text="#{new.account.firstname}"></th>
+			<th class="col-sm-2" th:text="#{new.account.name}"></th>
+			<th class="col-sm-3" th:text="#{customer.email}"></th>
+			</tr>	
+			<tr  th:each="customer : ${customerDTOs}">
+				<td class="col-sm-2" th:text="${customer.username}"></td>
+				<td class="col-sm-2" th:text="${customer.firstname}"></td>
+				<td class="col-sm-2" th:text="${customer.lastname}"></td>
+				<td class="col-sm-3" th:text="${customer.email}"></td>
+			</tr>		
+		</table>	
+		</div>
+		</div>
+		<div th:if="${franchiseeDTOs} !=null" >
+		
+			<h3 th:text="#{franchisees.list}"></h3>
+			<br>
+			<div class="row justify-content-start" >
+		<table>	
+			<tr>
+			<th class="col-sm-2" th:text="#{login.username}"></th>
+			<th class="col-sm-2" th:text="#{new.account.firstname}"></th>
+			<th class="col-sm-2" th:text="#{new.account.name}"></th>
+			<th class="col-sm-3" th:text="#{customer.email}"></th>
+			</tr>	
+			<tr  th:each="franchisee : ${franchiseeDTOs}">
+				<td class="col-sm-2" th:text="${franchisee.username}"></td>
+				<td class="col-sm-2" th:text="${franchisee.firstname}"></td>
+				<td class="col-sm-2" th:text="${franchisee.lastname}"></td>
+				<td class="col-sm-3" th:text="${franchisee.email}"></td>
+			</tr>		
+		</table>	
+		</div>
+			</div>
+		</div>
+		
+	<br><br><br><br>
+<br>
+<div th:insert="layout/default.html :: footer"></div>
+</div>
+<nav th:insert="layout/default.html :: footernavbar"></nav>
+<div th:insert="layout/default.html :: scripts"></div>
+</body>
+</html>

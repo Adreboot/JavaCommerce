@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="layout/default.html :: headerfiles"></th:block>
+</head>
+<body>
+<nav th:insert="layout/default.html :: navbar"></nav>
+<div class="container">
+<br><br><br><br>
+	<h3 th:text="#{products.included}+' '+${categoryId}"></h3>
+	<br>
+	<div style="border: 2px solid gray;border-radius: 4px;padding:5px">
+	<div th:each="productDTO : ${productDTOs}">
+		<a th:href="@{'/find-items?productId='+${productDTO.id}}" th:text="${productDTO.name}" ></a>
+    	<p th:text="${productDTO.description}"></p>
+	</div>
+	</div>
+
+	
+<br>
+<div th:insert="layout/default.html :: footer"></div>
+</div>
+<br><br><br>
+<nav th:insert="layout/default.html :: footernavbar"></nav>
+<div th:insert="layout/default.html :: scripts"></div>
+</body>
+</html>

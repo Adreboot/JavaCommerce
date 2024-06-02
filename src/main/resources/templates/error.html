@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="layout/default.html :: headerfiles"></th:block>
+</head>
+<body>
+<nav th:insert="layout/default.html :: navbar"></nav>
+<div class="container" >
+<br><br><br>
+<h1 th:text="#{error.page}"></h1>
+<br>
+<div th:if="${exception != null}" class="alert alert-warning" th:text="${exception}">message</div>
+
+<div th:if="${exceptions}" class="alert alert-warning">
+                    <table class="table table-striped ">
+                        <tbody>
+                        <tr class="row" th:each="exc : ${exceptions}">
+                                <td th:text="${exc}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+ </div>
+                
+<div th:insert="layout/default.html :: footer"></div>
+</div>
+<br><br><br>
+<nav th:insert="layout/default.html :: footernavbar"></nav>
+<div th:insert="layout/default.html :: scripts"></div>
+</body>
+</html>

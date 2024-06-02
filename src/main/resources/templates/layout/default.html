@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+				xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+
+<head th:fragment="headerfiles">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+<title th:text="#{title}"></title>
+<link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}">
+</head>
+
+<body>
+
+	<!-- Fixed navbar -->
+	<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+		<!-- <a class="navbar-brand" th:href="@{/}">YAPS</a> -->
+		<a th:href="@{/}" ><img style="height:3em;border:0px" th:src="@{/img/banner_logo.gif}"/></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"	data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>	
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">	
+			<ul class="navbar-nav ml-auto">
+			
+			<li class="nav-item active" sec:authorize="isAnonymous()"><a class="nav-link" th:href="@{/login}" th:text="#{menu.login}"></a></li>
+			<li class="nav-item active" sec:authorize="isAnonymous()"><a class="nav-link" th:href="@{/new-account}" th:text="#{menu.new-account}"></a></li>
+			
+				<li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+					<a class="nav-link dropdown-toggle" th:href="@{/#}" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span sec:authentication="name"></span></a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						<a class="dropdown-item"th:href="@{/}" th:text="#{menu.accueil}">Accueil</a>
+						<a class="dropdown-item" th:href="@{/price-search}" th:text="#{menu.price.search}"></a>
+						<a class="dropdown-item" th:href="@{/manage/manage-categories}" th:text="#{manage.catalog}" sec:authorize="hasRole('ADMIN')"></a>
+						<a class="dropdown-item" th:href="@{/display-franchisees}" th:text="#{franchisees.list}" sec:authorize="hasRole('ADMIN')"></a>
+						<a class="dropdown-item" th:href="@{/display-customers}" th:text="#{customers.list}" sec:authorize="hasAnyRole('ADMIN','FRANCHISEE')"></a>
+						<a class="dropdown-item" th:href="@{'/update-account/'+${#authentication.getPrincipal()}}" th:text="#{menu.edit.account}" sec:authorize="hasAnyRole('USER','FRANCHISEE')"></a>
+						<a class="dropdown-item" id="logout" href="javascript:document.logoutForm.submit()" th:text="#{menu.logout}">Logout</a>
+					</div>
+					<form name="logoutForm" th:action="@{/sso/logout}" method="post" th:hidden="true">
+                        <input th:hidden="true" type="submit" value="logout"/>
+                    </form>
+				</li>	
+				
+				<li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+				<form class="form-inline" method="post" th:action="@{/search-items}">
+    				<input class="form-control mr-sm-2" type="search" name="keyword" placeholder="Search" aria-label="Search">
+    					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  					</form>
+				</li>
+
+                <li class="nav-item" sec:authorize="hasRole('USER')">
+                    <a class="nav-link" th:href="@{/view-cart}" th:text="#{cart}"></a>
+                </li>
+				
+				<li class="nav-item dropdown active">
+					<a class="nav-link dropdown-toggle" th:href="@{/#}" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span th:text="#{menu.dropdown}"></span></a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						<a class="dropdown-item" th:href="@{/find-products?categoryId=BIRDS}" th:text="#{menu.birds}"></a>
+						<a class="dropdown-item" th:href="@{/find-products?categoryId=CATS}" th:text="#{menu.cats}"></a>
+						<a class="dropdown-item" th:href="@{/find-products?categoryId=DOGS}" th:text="#{menu.dogs}"></a> 
+						<a class="dropdown-item" th:href="@{/find-products?categoryId=FISH}" th:text="#{menu.fish}"></a> 
+						<a class="dropdown-item" th:href="@{/find-products?categoryId=REPTILES}" th:text="#{menu.reptiles}"></a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	
+	
+	<table th:fragment="footer" style="width:100%">
+    <tr>
+        <td>
+            <hr noShade SIZE=1>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" th:text="#{footer.demo}"></td>
+    </tr>
+	</table>
+
+	<nav th:fragment="footernavbar" class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom">
+		<a class="navbar-brand" th:href="@{/}" th:text="#{menu.bottom}"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</nav>
+	
+	<div th:fragment="scripts">
+	<script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"></script>
+	<script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+	</div>
+	
+</body>
+</html>

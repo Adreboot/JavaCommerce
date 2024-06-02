@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="layout/default.html :: headerfiles"></th:block>
+</head>
+<body>
+	<nav th:insert="layout/default.html :: navbar"></nav>
+    <div class="container">	
+    <br><br><br>
+		<h3 th:text="#{update.account.title}"></h3>
+		<a class="form-inline"th:href="@{'/delete-account/'+${userDTO.username}}" th:text="#{delete.account}"></a>
+		<hr />
+		<br>
+		<form class="form-horizontal" name="update-account-form" method="post" th:action="@{/update-account}" th:object="${userDTO}">
+				<div class="form-group">
+		    <label for="username" class="col-sm-2 control-label" th:text="#{new.account.username}"></label>
+		    <div class="col-sm-5">
+		        <input th:field="*{username}" type="text" id="username" name="username" th:value="*{username}" class="form-control" readonly />
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="firstname" class="col-sm-2 control-label" th:text="#{new.account.firstname}"></label>
+		    <div class="col-sm-5">
+		        <input th:field="*{firstname}" type="text" id="firstname" name="firstname"class="form-control" th:value="*{firstname}"/>
+		         <div class="alert alert-warning" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"></div>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="lastname" class="col-sm-2 control-label" th:text="#{new.account.name}"></label>
+		    <div class="col-sm-5">
+		        <input th:field="*{lastname}" type="text" id="lastname" name="lastname"class="form-control" th:value="*{lastname}"/>
+		        <div class="alert alert-warning" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></div>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="password" class="col-sm-2 control-label" th:text="#{new.account.password}"></label>
+		    <div class="col-sm-5">
+		        <input th:field="*{password}" type="password" class="form-control" id="password" name="password"/>
+		        <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+		    </div>
+		</div>		
+		<div class="form-group">
+				 <label for="email" class="col-sm-2 control-label" th:text="#{customer.email}"></label>
+				  <div class="col-sm-5">
+		        <input th:field="*{email}" type="text" id="email" name="email" class="form-control" th:value="*{email}"/>
+		    </div>
+		</div>	
+			<div class="form-group">
+				 <label for="telephone" class="col-sm-2 control-label" th:text="#{customer.telephone}"></label>
+				  <div class="col-sm-5">
+		        <input th:field="*{telephone}" type="text" id="telephone" name="telephone" class="form-control" th:value="*{telephone}" />
+		         <div class="alert alert-warning" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}"></div>
+		    </div>
+		    </div>
+			<!-- Address -->
+			<h5 th:text="#{customer.address}"></h5>
+			<div class="form-group">
+				 <label for="street1" class="col-sm-2 control-label" th:text="#{customer.street1}"></label>
+				  <div class="col-sm-5">
+		        <input th:field="*{street1}" type="text" id="street1" name="street1" class="form-control" th:value="*{street1}" />
+		    </div>
+			</div>
+			<div class="form-group">
+				 <label for="street2" class="col-sm-2 control-label" th:text="#{customer.street2}"></label>
+				  <div class="col-sm-5">
+		        <input th:field="*{street2}" type="text" id="street2" name="street2" class="form-control" th:value="*{street2}" />
+		    </div>
+			</div>
+			<div class="form-group">
+				 <label for="city" class="col-sm-2 control-label" th:text="#{customer.city}"></label>
+				  <div class="col-sm-5">
+		        <input th:field="*{city}" type="text" id="city" name="city" class="form-control" th:value="*{city}" />
+		    </div>
+			</div>
+			<div class="form-group">
+				 <label for="state" class="col-sm-2 control-label" th:text="#{customer.state}"></label>
+				  <div class="col-sm-5">
+		        <input th:field="*{state}" type="text" id="state" name="state" class="form-control" th:value="*{state}" />
+		    </div>
+			</div>
+			<div class="form-group">
+				 <label for="zipcode" class="col-sm-2 control-label" th:text="#{customer.zipcode}"></label>
+				  <div class="col-sm-5">
+		        <input th:field="*{zipcode}" type="text" id="zipcode" name="zipcode" class="form-control" th:value="*{zipcode}" />
+		    </div>
+			</div>
+			<div class="form-group">
+				 <label for="country" class="col-sm-2 control-label" th:text="#{customer.country}"></label>
+				  <div class="col-sm-5">
+		        <input th:field="*{country}" type="text" id="country" name="country" class="form-control" th:value="*{country}" />
+		    </div>
+			</div>
+			<!-- Credit card -->
+			<h5 th:text="#{customer.creditcard.information}"></h5>
+			<div class="form-group">
+				 <label for="creditCardType" class="col-sm-3 control-label" th:text="#{customer.creditCardType}"></label>
+				  <div class="col-sm-5">
+		        <input th:field="*{creditCardType}" type="text" id="creditCardType" name="creditCardType" class="form-control" th:value="*{creditCardType}" />
+		    </div>
+			</div>
+			<div class="form-group">
+				 <label for="creditCardNumber" class="col-sm-3 control-label" th:text="#{customer.creditCardNumber}"></label>
+				  <div class="col-sm-5">
+		        <input th:field="*{creditCardNumber}" type="text" id="creditCardNumber" name="creditCardNumber" class="form-control" th:value="*{creditCardNumber}" />
+		    </div>
+			</div>
+			<div class="form-group">
+				 <label for="creditCardExpiryDate" class="col-sm-3 control-label" th:text="#{customer.creditCardExpiryDate}"></label>
+				  <div class="col-sm-5">
+		        <input th:field="*{creditCardExpiryDate}" type="text" id="creditCardExpiryDate" name="creditCardExpiryDate" class="form-control" maxlength="5" th:value="*{creditCardExpiryDate}" />
+		    </div>
+			</div>
+			<br>
+		<div class="form-group">
+		    <div class="col-sm-offset-2 col-sm-5">
+		      <button type="submit" name="update-account-button" class="btn btn-primary" th:text="#{update.account}">Apply changes</button>
+		  	</div>
+		 </div>
+		</form>
+		<br><br><br><br>
+    </div>
+	<th:block th:insert="layout/default.html :: footernavbar"></th:block>
+	<th:block th:insert="layout/default.html :: scripts"></th:block>
+</body>
+</html>

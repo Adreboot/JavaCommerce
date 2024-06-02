@@ -1,0 +1,95 @@
+ext {
+  dbHost = "${dbHost}"
+  dbPort = "${dbPort}"
+  dbSid = "petstoreDB"
+  dbDriver = 'com.mysql.cj.jdbc.Driver'
+  dbUrl = "jdbc:mysql://${dbHost}:${dbPort}/${dbSid}?useSSL=false&serverTimezone=UTC"
+  dbUser = "$dbUser"
+  dbPassword = "$dbPassword"
+}
+flyway {
+    url = dbUrl
+    user = dbUser
+    password = dbPassword
+}
+
+task reset_db {
+  group = 'build'
+  description = 'Reset the database.'
+  dependsOn flywayClean
+}
+
+task create_db {
+  group = 'build'
+  description = 'create the database.'
+}
+create_db.doLast {
+  exec{
+    ignoreExitValue true
+    commandLine 'bash',  './createDB.sh', "${dbUser}", "${dbPassword}"
+  }
+}
+
+task populate_db {
+  group = 'build'
+  description = 'populates the database.'
+  dependsOn flywayClean, flywayMigrate
+}
+
+task myTest(type: JavaExec){
+  group = 'verification'
+  description = 'Runs the unit tests in text mode.'
+  dependsOn compileJava
+  dependsOn compileTestJava
+  dependsOn create_db, populate_db
+  mainClass = "AllTests"
+  classpath files([ "${buildDir}/classes/java/main", "${buildDir}/classes/java/test" ])
+  classpath sourceSets.test.runtimeClasspath // required to find JUnit
+}
+
+war { // mandatory to generate war file!
+    enabled = true
+}
+task deployToTomcat(type: Copy) {
+  group = 'distribution'
+  description = 'Deploys the war file to external Tomcat.'
+  dependsOn war
+  from war.archivePath
+  into "$System.env.TOMCAT_HOME/webapps"
+  rename project.name + "-${version}.war", 'petstore.war'
+  onlyIf {
+      System.env['TOMCAT_HOME'] != null
+  }
+}
+deployToTomcat.doFirst {
+  if ( System.env['TOMCAT_HOME'] == null )
+    throw new GradleException('error : TOMCAT_HOME should be defined ')
+}
+
+task checkTomcatInstallation
+checkTomcatInstallation.doLast {
+  if ( System.env['TOMCAT_HOME'] == null )
+    throw new GradleException('error : TOMCAT_HOME should be defined ')
+  assert file("$System.env.TOMCAT_HOME/webapps").exists()
+}
+
+task startTomcat(type:Exec) {
+  dependsOn checkTomcatInstallation
+  workingDir "$System.env.TOMCAT_HOME/bin"
+  if (System.properties['os.name'].toLowerCase().contains('windows')) {
+    // commandLine 'cmd', '/c', 'dir', 's*.sh'
+    commandLine 'cmd', '/c', 'startup.bat'
+  } else {
+    // commandLine 'ls', '-l', 's*.sh'
+    commandLine './startup.sh'
+   }
+}
+task stopTomcat(type:Exec) {
+  dependsOn checkTomcatInstallation
+  workingDir "$System.env.TOMCAT_HOME/bin"
+  if (System.properties['os.name'].toLowerCase().contains('windows')) {
+    commandLine 'cmd', '/c', 'shutdown.bat'
+  } else {
+    commandLine './shutdown.sh'
+  }
+}
